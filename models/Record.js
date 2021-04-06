@@ -7,6 +7,18 @@ const RecordSchema = mongoose.Schema({
         required: yes
     },
     releaseDate: {
-        type: 
-    }
+        type: String,
+        required: true
+    },
+    link: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    artists: [
+        {
+           type: Schema.Types.ObjectId,
+           ref: 'Artists'
+        }
+    ]
 })
