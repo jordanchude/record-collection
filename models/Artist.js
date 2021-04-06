@@ -17,7 +17,7 @@ const ArtistSchema = mongoose.Schema({
     },
     records: [
         {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'Records'
         }
     ]
