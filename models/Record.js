@@ -21,4 +21,6 @@ const RecordSchema = mongoose.Schema({
            ref: 'Artists'
         }
     ]
-})
+});
+
+module.exports = mongoose.model('Record', RecordSchema);

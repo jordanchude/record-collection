@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
         const artists = await Artist.find();
         res.status(200).json(artists);
     } catch (err) {
-        res.status(404).json({message: err.message});
+        res.status(500).json({message: err.message});
     }
 });
 
@@ -24,8 +24,28 @@ router.post('/', async (req, res) => {
         const savedArtist = await artist.save();
         res.status(200).json(artist);
     } catch (err) {
-        res.status(404).json({message: err.message});
+        res.status(500).json({message: err.message});
     }
-})
+});
+
+// DELETE ARTIST
+router.delete('/:artistId', async (req, res) => {
+    try {
+        const deletedArtist = await Artist.deleteOne({_id: req.params.artistId});
+        res.status(200).json(deletedArtist);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+});
+
+// REPLACE ARTIST
+router.put('/:artistId', async (req, res) => {
+    try {
+        const replacedArtist = await Artist.findByIdAndUpdate(req.params.artistId, req.body, {new: true});
+        res.status(200).json(replacedArtist);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+});
 
 module.exports = router;
