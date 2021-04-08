@@ -4,18 +4,18 @@ const mongoose = require('mongoose');
 const app = express();
 require('dotenv/config')
 const artistRouter = require('./routes/artists');
-// const recordRouter = require('./routes/records');
+const recordRouter = require('./routes/records');
 
 // MIDDLEWARE
 app.use(express.json());
 
 // ROUTES
 app.use('/artists', artistRouter);
-// app.use('/records', recordRouter);
+app.use('/', recordRouter);
 
-app.get('/', (req, res) => {
-    res.send("This is the first route");
-})
+// app.get('/', (req, res) => {
+//     res.send("This is the first route");
+// })
 
 // CONNECT TO DB
 mongoose.connect(

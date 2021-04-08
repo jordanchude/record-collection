@@ -4,10 +4,10 @@ const RecordSchema = mongoose.Schema({
     name: {
         type: String,
         unique: true,
-        required: yes
+        required: true
     },
     releaseDate: {
-        type: String,
+        type: Date,
         required: true
     },
     link: {
