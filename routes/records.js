@@ -12,7 +12,7 @@ router.get('/:artistId/records', async (req, res) => {
     } catch (err) {
         res.status(500).json({message: err.message});
     }
-})
+});
 
 // SUBMIT RECORD
 router.post('/records', async (req, res) => {
@@ -32,10 +32,23 @@ router.post('/records', async (req, res) => {
 
         // PARALLEL SEQUENCE WITH PROMISE.ALL
          const artist = record.artists.map(element => Artist.updateOne({_id: element}, {$push: {records: record}}));
-
          await Promise.all(artist);
 
         res.status(200).json(savedRecord);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+});
+
+// DELETE RECORDS
+router.delete('/records/:recordId', async (req, res) => {
+    try {
+        const deletedRecord = await Record.deleteOne({_id: req.params.recordId});
+
+        // FIGURE THIS OUT
+        const artist = artists.map(element => Artist.updateOne({_id: element}, {$pull: {records: req.params.recordId}}));
+
+        res.status(200).json(deletedRecord);
     } catch (err) {
         res.status(500).json({message: err.message});
     }
