@@ -43,12 +43,14 @@ router.post('/records', async (req, res) => {
 // DELETE RECORDS
 router.delete('/records/:recordId', async (req, res) => {
     try {
-        const deletedRecord = await Record.deleteOne({_id: req.params.recordId});
+        const artists = await Artist.find({records: req.params.recordId});
+        console.log(artists);
+        // const deletedRecord = await Record.deleteOne({_id: req.params.recordId});
 
         // FIGURE THIS OUT
-        const artist = artists.map(element => Artist.updateOne({_id: element}, {$pull: {records: req.params.recordId}}));
+        const artist = artists.map(element => Artist.updateOne({record: element}, {$pull: {records: req.params.recordId}}));
 
-        res.status(200).json(deletedRecord);
+        res.status(200).json(artists);
     } catch (err) {
         res.status(500).json({message: err.message});
     }
