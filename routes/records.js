@@ -1,5 +1,6 @@
 // DEPENDENCIES
 const express = require('express');
+const { findByIdAndUpdate } = require('../models/Artist');
 const Artist = require('../models/Artist');
 const router = express.Router();
 const Record = require('../models/Record');
@@ -53,6 +54,30 @@ router.delete('/records/:recordId', async (req, res) => {
             {multi: true});
 
         res.status(200).json(deletedRecord);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+});
+
+// UPDATE RECORD
+router.put('/:recordId', async (req, res) => {
+    try {
+        // UPDATE RECORD
+        const updatedRecord = await Record.findByIdAndUpdate(req.params.recordId, req.body, {new: true});
+
+        // UPDATE ARTIST
+        // if body includes artists, remove or add record from artists' object
+        if (req.body.includes(req.body.artists)) {
+
+            await Artist.updateMany({_id: req.body.artists}, {$push: {records: req.params.recordId}});
+
+        } else {
+
+        }
+
+        // else update record
+        
+        res.status(200).json(updatedRecord);
     } catch (err) {
         res.status(500).json({message: err.message});
     }
