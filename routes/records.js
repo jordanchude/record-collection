@@ -64,19 +64,25 @@ router.put('/:recordId', async (req, res) => {
     try {
         // UPDATE RECORD
         const updatedRecord = await Record.findByIdAndUpdate(req.params.recordId, req.body, {new: true});
-
-        // UPDATE ARTIST
-        // if body includes artists, remove or add record from artists' object
-        if (req.body.includes(req.body.artists)) {
-
-            await Artist.updateMany({_id: req.body.artists}, {$push: {records: req.params.recordId}});
-
-        } else {
-
-        }
-
-        // else update record
         
+        // UPDATE ARTIST
+        // check to see if artists in the array have the updated record
+        // add record, if it doesn't
+        // remove the record from all other artists
+
+        const artists = updatedRecord.artists;
+
+        // check to see if id is already added
+        const addedRecord = artists.map(element => 
+            console.log(Artist.findById(element))
+            // Artist.updateOne({_id: element}, {$push: {records: req.params.recordId}})
+            
+        );
+
+        //  await Promise.all(artist);
+        
+
+
         res.status(200).json(updatedRecord);
     } catch (err) {
         res.status(500).json({message: err.message});
