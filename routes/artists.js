@@ -29,6 +29,7 @@ router.post('/', async (req, res) => {
 });
 
 // DELETE ARTIST
+// ADD A WAY TO DELETE ARTIST FROM RECORD OBJECTS
 router.delete('/:artistId', async (req, res) => {
     try {
         const deletedArtist = await Artist.deleteOne({_id: req.params.artistId});
@@ -39,6 +40,7 @@ router.delete('/:artistId', async (req, res) => {
 });
 
 // REPLACE ARTIST
+// UPDATE RECORD OBJECT IF CHANGED
 router.put('/:artistId', async (req, res) => {
     try {
         const replacedArtist = await Artist.findByIdAndUpdate(req.params.artistId, req.body, {new: true});

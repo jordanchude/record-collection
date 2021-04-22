@@ -71,14 +71,15 @@ router.put('/:recordId', async (req, res) => {
         // remove the record from all other artists
 
         const artists = updatedRecord.artists;
+        
+        for (element of artists) {
+            const artist = await Artist.findById(element);
+            if (!artist.records.includes(req.params.recordId)) {
+                Artist.updateOne({_id: element._id}, {$push: {records: req.params.recordId}})
+            }
+        }
 
-        // check to see if id is already added
-        const addedRecord = artists.map(element => 
-            console.log(Artist.findById(element))
-            // Artist.updateOne({_id: element}, {$push: {records: req.params.recordId}})
-            
-        );
-
+        // const artist = record.artists.map(element => Artist.updateOne({_id: element}, {$push: {records: record}}));
         //  await Promise.all(artist);
         
 
