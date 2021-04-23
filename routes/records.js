@@ -74,8 +74,15 @@ router.put('/:recordId', async (req, res) => {
         
         for (element of artists) {
             const artist = await Artist.findById(element);
+
             if (!artist.records.includes(req.params.recordId)) {
-                Artist.updateOne({_id: element._id}, {$push: {records: req.params.recordId}})
+                await Artist.updateOne({_id: element}, {$push: {records: req.params.recordId}})
+            } else {
+                await Artist.updateMany(
+                    {}, 
+                    {$pull: {records: {$in: [req.params.recordId]}}},
+                    {multi: true}
+                );
             }
         }
 
