@@ -77,14 +77,21 @@ router.put('/:recordId', async (req, res) => {
 
             if (!artist.records.includes(req.params.recordId)) {
                 await Artist.updateOne({_id: element}, {$push: {records: req.params.recordId}})
-            } else {
-                await Artist.updateMany(
-                    {}, 
-                    {$pull: {records: {$in: [req.params.recordId]}}},
-                    {multi: true}
-                );
             }
         }
+        
+        // update artists that aren't in updated artist array
+        // remove current record id
+
+        // FIGURE THIS OUT
+        const artistsToRemove = await Artist.find({_id: {$ne: artists}});
+        console.log(artistsToRemove);
+
+        // await Artist.updateMany(
+        //     {_id: artists}, 
+        //     {$pull: {records: {$in: [req.params.recordId]}}},
+        //     {multi: true}
+        // );
 
         // const artist = record.artists.map(element => Artist.updateOne({_id: element}, {$push: {records: record}}));
         //  await Promise.all(artist);
