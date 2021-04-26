@@ -26,6 +26,7 @@ router.get('/:artistId/records', async (req, res) => {
 });
 
 // SUBMIT RECORD
+// TODO: VALIDATE ALL ARTISTS EXIST BEFORE ADDING RECORD
 router.post('/records', async (req, res) => {
     let record = new Record({
         name: req.body.name,

@@ -30,7 +30,6 @@ router.post('/', async (req, res) => {
 });
 
 // DELETE ARTIST
-// ADD A WAY TO DELETE ARTIST FROM RECORD OBJECTS
 router.delete('/:artistId', async (req, res) => {
     try {
         // DELETE ARTIST
@@ -42,8 +41,8 @@ router.delete('/:artistId', async (req, res) => {
             {$pull: {artists: {$in: [req.params.artistId]}}},
             {multi: true});
 
-        const leftOverRecords = await Record.find();
-        console.log(leftOverRecords);
+        // REMOVE RECORDS WITH NO ARTIST    
+        await Record.deleteMany({artists: {$exists: true, $size: 0}});
 
         res.status(200).json(deletedArtist);
     } catch (err) {
@@ -51,11 +50,32 @@ router.delete('/:artistId', async (req, res) => {
     }
 });
 
-// REPLACE ARTIST
+// UPDATE ARTIST
 // UPDATE RECORD OBJECT IF CHANGED
 router.put('/:artistId', async (req, res) => {
     try {
+        // UPDATE ARTIST
         const replacedArtist = await Artist.findByIdAndUpdate(req.params.artistId, req.body, {new: true});
+
+        const records = replacedArtist.records;
+        console.log(records)
+
+        // UPDATE RECORDS WITH ARTIST
+        for (element of records) {
+            const record = await Record.findById(element);
+
+            if (!record.artists.includes(req.params.recordId)) {
+                await Record.updateOne({_id: element}, {$push: {artists: req.params.artistId}})
+            }
+        }
+
+        // REMOVE ARTIST FROM RECORD NOT IN ARTISTS
+        await Record.updateMany(
+            {_id: {$nin: records}}, 
+            {$pull: {artists: {$in: [req.params.artistId]}}},
+            {multi: true}
+        );
+        
         res.status(200).json(replacedArtist);
     } catch (err) {
         res.status(500).json({message: err.message});
