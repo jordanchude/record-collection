@@ -64,14 +64,10 @@ router.put('/:recordId', async (req, res) => {
     try {
         // UPDATE RECORD
         const updatedRecord = await Record.findByIdAndUpdate(req.params.recordId, req.body, {new: true});
-        
-        // UPDATE ARTIST
-        // check to see if artists in the array have the updated record
-        // add record, if it doesn't
-        // remove the record from all other artists
 
         const artists = updatedRecord.artists;
         
+        // UPDATE ARTISTS ON RECORD
         for (element of artists) {
             const artist = await Artist.findById(element);
 
@@ -79,24 +75,13 @@ router.put('/:recordId', async (req, res) => {
                 await Artist.updateOne({_id: element}, {$push: {records: req.params.recordId}})
             }
         }
-        
-        // update artists that aren't in updated artist array
-        // remove current record id
 
-        // FIGURE THIS OUT
-        const artistsToRemove = await Artist.find({_id: {$ne: artists}});
-        console.log(artistsToRemove);
-
-        // await Artist.updateMany(
-        //     {_id: artists}, 
-        //     {$pull: {records: {$in: [req.params.recordId]}}},
-        //     {multi: true}
-        // );
-
-        // const artist = record.artists.map(element => Artist.updateOne({_id: element}, {$push: {records: record}}));
-        //  await Promise.all(artist);
-        
-
+        // REMOVE RECORD FROM ARTISTS NOT ON RECORD
+        await Artist.updateMany(
+            {_id: {$nin: artists}}, 
+            {$pull: {records: {$in: [req.params.recordId]}}},
+            {multi: true}
+        );
 
         res.status(200).json(updatedRecord);
     } catch (err) {
