@@ -5,6 +5,16 @@ const Artist = require('../models/Artist');
 const router = express.Router();
 const Record = require('../models/Record');
 
+// GET ALL RECORDS
+router.get('/records', async (req, res) => {
+    try {
+        const allRecords = await Record.find();
+        res.status(200).json(allRecords);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+})
+
 // GET ARTIST RECORDS
 router.get('/:artistId/records', async (req, res) => {
     try {

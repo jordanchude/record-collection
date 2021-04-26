@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const Artist = require('../models/Artist');
+const Record = require('../models/Record');
 
 // GET ARTISTS
 router.get('/', async (req, res) => {
@@ -32,7 +33,18 @@ router.post('/', async (req, res) => {
 // ADD A WAY TO DELETE ARTIST FROM RECORD OBJECTS
 router.delete('/:artistId', async (req, res) => {
     try {
+        // DELETE ARTIST
         const deletedArtist = await Artist.deleteOne({_id: req.params.artistId});
+
+        // REMOVE ARTIST FROM RECORDS
+        await Record.updateMany(
+            {}, 
+            {$pull: {artists: {$in: [req.params.artistId]}}},
+            {multi: true});
+
+        const leftOverRecords = await Record.find();
+        console.log(leftOverRecords);
+
         res.status(200).json(deletedArtist);
     } catch (err) {
         res.status(500).json({message: err.message});
