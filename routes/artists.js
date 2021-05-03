@@ -51,7 +51,6 @@ router.delete('/:artistId', async (req, res) => {
 });
 
 // UPDATE ARTIST
-// UPDATE RECORD OBJECT IF CHANGED
 router.put('/:artistId', async (req, res) => {
     try {
         // UPDATE ARTIST
@@ -69,7 +68,7 @@ router.put('/:artistId', async (req, res) => {
             }
         }
 
-        // REMOVE ARTIST FROM RECORD NOT IN ARTISTS
+        // REMOVE ARTIST FROM RECORD NOT IN ARTISTS ARRAY
         await Record.updateMany(
             {_id: {$nin: records}}, 
             {$pull: {artists: {$in: [req.params.artistId]}}},

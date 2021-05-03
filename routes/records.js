@@ -1,5 +1,6 @@
 // DEPENDENCIES
 const express = require('express');
+const { isValidObjectId } = require('mongoose');
 const { findByIdAndUpdate } = require('../models/Artist');
 const Artist = require('../models/Artist');
 const router = express.Router();
@@ -34,6 +35,7 @@ router.post('/records', async (req, res) => {
         link: req.body.link,
         artists: req.body.artists
     });
+
     try {
         const savedRecord = await record.save();
 

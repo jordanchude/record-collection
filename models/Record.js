@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const isValid = require('mongoose-id-validator');
 
 const RecordSchema = mongoose.Schema({
     name: {
@@ -24,4 +25,18 @@ const RecordSchema = mongoose.Schema({
     ]
 });
 
-module.exports = mongoose.model('Record', RecordSchema);
+const recordModel = mongoose.model('Record', RecordSchema);
+
+RecordSchema.path('artists').validate(function (value, respond) {
+
+    recordModel.findOne({_id: value}, function (err, doc) {
+        if (err || !doc) {
+            respond(false);
+        } else {
+            respond(true);
+        }
+    });
+
+}, 'Example non existent');
+
+module.exports = recordModel;
