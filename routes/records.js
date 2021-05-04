@@ -37,6 +37,7 @@ router.post('/records', async (req, res) => {
     });
 
     try {
+        // VALIDATE ARTISTS
         const savedRecord = await record.save();
 
         // FOR OF IN SEQUENCE
