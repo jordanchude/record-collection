@@ -26,9 +26,9 @@ const RecordSchema = mongoose.Schema({
     ]
 });
 
-RecordSchema.plugin(isValid);
+// RecordSchema.plugin(isValid);
 
-artistModel = mongoose.model('Artist', ArtistSchema);
+// artistModel = mongoose.model('Artist', ArtistSchema);
 recordModel = mongoose.model('Record', RecordSchema);
 
 module.exports = recordModel;

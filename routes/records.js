@@ -36,9 +36,23 @@ router.post('/records', async (req, res) => {
         artists: req.body.artists
     });
 
+    // console.log(req.query);
+
     try {
         // VALIDATE ARTISTS
+        // IF ARTISTS IN ARTIST OBJECT DO NOT EXIST
+        // DON'T SAVE, THROW AN ERROR
+
+        // const existingArtists = await Record.findById(record.artists);
+        const existingArtists = await Record.find({artists: req.query});
+        console.log(existingArtists);
         const savedRecord = await record.save();
+
+        // if (existingArtists.length === record.artists.length) {
+        //     const savedRecord = await record.save();
+        // } else {
+        //    throw new Error("Artist record does not exist"); 
+        // }
 
         // FOR OF IN SEQUENCE
         //  for (element of record.artists) {
