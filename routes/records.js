@@ -27,7 +27,6 @@ router.get('/:artistId/records', async (req, res) => {
 });
 
 // SUBMIT RECORD
-// TODO: VALIDATE ALL ARTISTS EXIST BEFORE ADDING RECORD
 router.post('/records', async (req, res) => {
     let record = new Record({
         name: req.body.name,
@@ -43,22 +42,24 @@ router.post('/records', async (req, res) => {
         // COMPARE LENGTH OF ARTISTS IN OBJECT TO EXISTING ARTISTS IN OBJECT
         if (record.artists.length === existingArtists.length) {
 
-            // SAVED RECORD DOES NOT EXIST
-            let savedRecord = await record.save();
+            // DUPLICATE EVEN WHEN NOT SAVED
+            const savedRecord = await record.save();
+
+            // FOR OF IN SEQUENCE
+            //  for (element of record.artists) {
+            //     await Artist.updateOne({_id: element}, {$push: {records: record}});
+            //  }
+
+            // PARALLEL SEQUENCE WITH PROMISE.ALL
+            const artist = record.artists.map(element => Artist.updateOne({_id: element}, {$push: {records: record}}));
+            await Promise.all(artist);
+
+             // SEND STATUS AND SAVE JSON
+            res.status(200).json(savedRecord);
         } else {
             throw new Error("Artist record does not exist");
         }
 
-        // FOR OF IN SEQUENCE
-        //  for (element of record.artists) {
-        //     await Artist.updateOne({_id: element}, {$push: {records: record}});
-        //  }
-
-        // PARALLEL SEQUENCE WITH PROMISE.ALL
-         const artist = record.artists.map(element => Artist.updateOne({_id: element}, {$push: {records: record}}));
-         await Promise.all(artist);
-
-        res.status(200).json(savedRecord);
     } catch (err) {
         res.status(500).json({message: err.message});
     }
@@ -68,22 +69,23 @@ router.post('/records', async (req, res) => {
 router.delete('/records/:recordId', async (req, res) => {
     try {
         // DELETE RECORD
-        // const deletedRecord = await Record.deleteOne({_id: req.params.recordId});
+        const deletedRecord = await Record.deleteOne({_id: req.params.recordId});
 
-        // DELETE ALL RECORDS (FOR RE-TESTING)
-        // const deletedRecord = await Record.deleteMany();
-
-        // DELETE ALL RECORDS FROM ARTISTS (FOR RE-TESTING)
-        // await Artist.updateMany(
-        //     {},
-        //     {$set: {records: []}},
-        //     {multi: true});
-        
         // UPDATE ARTIST
         await Artist.updateMany(
             {}, 
             {$pull: {records: {$in: [req.params.recordId]}}},
             {multi: true});
+
+        // DELETE ALL RECORDS (FOR TESTING)
+        // const deletedRecord = await Record.deleteMany();
+
+        // DELETE ALL RECORDS FROM ARTISTS (FOR TESTING)
+        // await Artist.updateMany(
+        //     {},
+        //     {$set: {records: []}},
+        //     {multi: true});
+        
 
         res.status(200).json(deletedRecord);
     } catch (err) {
