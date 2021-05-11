@@ -36,23 +36,18 @@ router.post('/records', async (req, res) => {
         artists: req.body.artists
     });
 
-    // console.log(req.query);
-
     try {
-        // VALIDATE ARTISTS
-        // IF ARTISTS IN ARTIST OBJECT DO NOT EXIST
-        // DON'T SAVE, THROW AN ERROR
+        // CREATE ARRAY OF EXISTING ARTISTS
+        const existingArtists = new Array (await Artist.findById(record.artists));
+        
+        // COMPARE LENGTH OF ARTISTS IN OBJECT TO EXISTING ARTISTS IN OBJECT
+        if (record.artists.length === existingArtists.length) {
 
-        // const existingArtists = await Record.findById(record.artists);
-        const existingArtists = await Record.find({artists: req.query});
-        console.log(existingArtists);
-        const savedRecord = await record.save();
-
-        // if (existingArtists.length === record.artists.length) {
-        //     const savedRecord = await record.save();
-        // } else {
-        //    throw new Error("Artist record does not exist"); 
-        // }
+            // SAVED RECORD DOES NOT EXIST
+            let savedRecord = await record.save();
+        } else {
+            throw new Error("Artist record does not exist");
+        }
 
         // FOR OF IN SEQUENCE
         //  for (element of record.artists) {
@@ -73,7 +68,16 @@ router.post('/records', async (req, res) => {
 router.delete('/records/:recordId', async (req, res) => {
     try {
         // DELETE RECORD
-        const deletedRecord = await Record.deleteOne({_id: req.params.recordId});
+        // const deletedRecord = await Record.deleteOne({_id: req.params.recordId});
+
+        // DELETE ALL RECORDS (FOR RE-TESTING)
+        // const deletedRecord = await Record.deleteMany();
+
+        // DELETE ALL RECORDS FROM ARTISTS (FOR RE-TESTING)
+        // await Artist.updateMany(
+        //     {},
+        //     {$set: {records: []}},
+        //     {multi: true});
         
         // UPDATE ARTIST
         await Artist.updateMany(
