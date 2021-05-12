@@ -56,11 +56,10 @@ router.put('/:artistId', async (req, res) => {
         // UPDATE ARTIST
         const replacedArtist = await Artist.findByIdAndUpdate(req.params.artistId, req.body, {new: true});
 
-        const records = replacedArtist.records;
-        console.log(records)
+        const recordIDs = replacedArtist.records;
 
         // UPDATE RECORDS WITH ARTIST
-        for (element of records) {
+        for (element of recordsIDs) {
             const record = await Record.findById(element);
 
             if (!record.artists.includes(req.params.recordId)) {

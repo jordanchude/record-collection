@@ -1,6 +1,6 @@
 // DEPENDENCIES
 const express = require('express');
-const { isValidObjectId } = require('mongoose');
+// const { isValidObjectId } = require('mongoose');
 const { findByIdAndUpdate } = require('../models/Artist');
 const Artist = require('../models/Artist');
 const router = express.Router();
@@ -41,8 +41,7 @@ router.post('/records', async (req, res) => {
         
         // COMPARE LENGTH OF ARTISTS IN OBJECT TO EXISTING ARTISTS IN OBJECT
         if (record.artists.length === existingArtists.length) {
-
-            // DUPLICATE EVEN WHEN NOT SAVED
+            
             const savedRecord = await record.save();
 
             // FOR OF IN SEQUENCE
