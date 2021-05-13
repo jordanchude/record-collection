@@ -6,6 +6,19 @@ require('dotenv/config')
 const artistRouter = require('./routes/artists');
 const recordRouter = require('./routes/records');
 
+// FIREBASE
+var admin = require("firebase-admin");
+
+var serviceAccount = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+
+admin.initializeApp({
+    credential: admin.credential.applicationDefault()
+  });
+
+// Initialize the default app
+var admin = require('firebase-admin');
+var app = admin.initializeApp();
+
 // MIDDLEWARE
 app.use(express.json());
 
