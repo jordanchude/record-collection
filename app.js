@@ -5,7 +5,6 @@ const app = express();
 require('dotenv/config')
 const artistRouter = require('./routes/artists');
 const recordRouter = require('./routes/records');
-const { Magic } = require('@magic-sdk/admin');
 
 // MIDDLEWARE
 app.use(express.json());
