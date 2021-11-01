@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const ArtistSchema = require('./Artist');
-// const isValid = require('mongoose-id-validator');
 
 const RecordSchema = mongoose.Schema({
     name: {
@@ -25,8 +24,6 @@ const RecordSchema = mongoose.Schema({
         }
     ]
 });
-
-// RecordSchema.plugin(isValid);
 
 // artistModel = mongoose.model('Artist', ArtistSchema);
 recordModel = mongoose.model('Record', RecordSchema);

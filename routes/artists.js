@@ -59,7 +59,7 @@ router.put('/:artistId', async (req, res) => {
         const recordIDs = replacedArtist.records;
 
         // UPDATE RECORDS WITH ARTIST
-        for (element of recordsIDs) {
+        for (element of recordIDs) {
             const record = await Record.findById(element);
 
             if (!record.artists.includes(req.params.recordId)) {
@@ -69,7 +69,7 @@ router.put('/:artistId', async (req, res) => {
 
         // REMOVE ARTIST FROM RECORD NOT IN ARTISTS ARRAY
         await Record.updateMany(
-            {_id: {$nin: records}}, 
+            {_id: {$nin: recordIDs}}, 
             {$pull: {artists: {$in: [req.params.artistId]}}},
             {multi: true}
         );
