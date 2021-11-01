@@ -13,10 +13,6 @@ app.use(express.json());
 app.use('/artists', artistRouter);
 app.use('/', recordRouter);
 
-// app.get('/', (req, res) => {
-//     res.send("This is the first route");
-// })
-
 // CONNECT TO DB
 mongoose.connect(
     process.env.DB_CONNECTION,

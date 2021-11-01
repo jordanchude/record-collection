@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const ArtistSchema = require('./Artist');
-const isValid = require('mongoose-id-validator');
+// const isValid = require('mongoose-id-validator');
 
 const RecordSchema = mongoose.Schema({
     name: {
