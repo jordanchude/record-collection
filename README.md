@@ -4,52 +4,49 @@
 
 This project is a full CRUD record collection created with Javascript (Node.js) and a MongoDB database. Using postman, users can manage a collection of artists (i.e. their name, birthday, and photo, and records) and their corresponding records (each records' artists, name, release date, and link). This project was made entirely with an audience on my Twitch channel. At every point, I was either teaching someone in the community what I was doing or collaborating with the community to finish it.
 
-### MVP/PostMVP
-#### MVP
+## MVP
 
 - Create, Read, Update, and Delete Artists
 - Create, Read, Update, and Delete Records
 - Many-to-many relationship between artists and records
 
-#### PostMVP 
+## PostMVP 
 
 - Mock up UI for database
 - Create extra security features
 
-## Functional Components
-#### MVP
+## MVP Components
 | Component |
 | --- |
-| User Login Authentication |
-| Test Authentication in Postman with Authorization |
-| User Models/Migration |
-| Board Models/Migration |
-| List Models/Migration | H | 1hr | .5hr |
-| Item Models/Migration | H | 1hr | .5hr |
-| Board Controllers | H | 2hr| 1hr |
-| List Controllers | H | 3hr | 2hr |
-| Item Controllers | H | 5hr | 4hr |
-| Locally Test and Debug Board Controllers | H | .5hr | .5hr |
-| Locally Test and Debug List Controllers | H | 1hrs| .5hr |
-| Locally Test and Debug Item Controllers | H | 2hrs| 3hr |
-| Deployment | H | .5hr | 2hr |
-| Remotely Test and Debug Board Controllers | H | .5hrs| .5hr |
-| Remotely Test and Debug List Controllers | H | 4hrs| 2hr |
-| Remotely Test and Debug Item Controllers | H | 2hrs| 3hr |
+| Configure Server |
+| Artist Employee Schema and Model |
+| Record Employee Schema and Model |
+| Artist Route Handlers |
+| Record Route Handlers |
+| Test Artist Endpoints |
+| Test Record Endpoints |
+| Create (POST): Grab Artist Data & Submit Request |
+| Read (GET): Populate Artists |
+| Update (PUT): Take Artist Data and Replace |
+| Delete (DELETE): Send Request to Delete Artist |
+| Create (POST): Grab Record Data & Submit Request |
+| Read (GET): Populate Records |
+| Update (PUT): Take Record Data and Replace |
+| Delete (DELETE): Send Request to Delete Record |
+| Debugging |
+| Documentation |
 
-#### PostMVP
-| Letter | Component | Priority | Estimated Time | Time Invested |
-| --- | --- | :---: |  :---: | :---: |
-| A | Create Seed Data for Initial Users, Boards, and Items | M | 1hr | 1hr |
-| B | Activity Log Models/Migration | L | 1hr | -hr |
-| C | Activity Log Controllers | L | 3hr | -hr |
-| D | Team Models/Migration | L | 1hr | -hr |
-| E | Team Controllers | M | 3hr | -hr |
-| F | Locally Test Activity Log Controller | M | 2hr | -hr |
-| G | Remotely Test Activity Log Controller | M | 2hr | -hr |
-| H | Locally Test Activity Log Controller | M | 2hr | -hr |
-| I | Remotely Test Activity Log Controller | M | 2hr | -hr |
-| - | Total | - | 16hrs| 1hrs |
+
+## PostMVP Components
+|Component|
+| --- |
+| Wireframing |
+| HTML Skeleton |
+| CSS Styling (Mobile, Tablet, and Desktop) |
+| Populate + Connect Backend Data to UI |
+| Testing |
+| Documentation |
+| Deployment |
 
 ## Additional Libraries
 - [asgiref (3.2.10)](https://github.com/django/asgiref)
