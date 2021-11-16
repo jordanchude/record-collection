@@ -49,15 +49,7 @@ This project is a full CRUD record collection created with Javascript (Node.js) 
 | Deployment |
 
 ## Additional Libraries
-- [asgiref (3.2.10)](https://github.com/django/asgiref)
-- [dj-database-url (0.5.0)](https://pypi.org/project/dj-database-url/)
-- [Django (3.1.1)](https://www.djangoproject.com/)
-- [django-heroku (0.3.1)](https://devcenter.heroku.com/articles/getting-started-with-python)
-- [gunicorn (20.0.4)](https://docs.gunicorn.org/en/stable/)
-- [psycopg2 (2.8.6)](https://www.psycopg.org/docs/install.html)
-- [pytz (2020.1)](https://pypi.org/project/pytz/)
-- [sqlparse (0.3.1)](https://pypi.org/project/sqlparse/)
-- [whitenoise (5.2.0)](http://whitenoise.evans.io/en/stable/)
+- [dotenv (8.2.0)](https://www.npmjs.com/package/dotenv)
 
 ## Code Snippet
 - The simple but necessary code to activate the core of my app: creating movies for my database.
