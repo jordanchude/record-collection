@@ -97,6 +97,7 @@ router.put('/:artistId', async (req, res) => {
 
 **RESOLUTION**: My IP address wasn't authorized to run requests in my MongoDB database. I was so busy looking in the code, I didn't think about an issue with my MongoDB settings. Definitelly learned my lesson.
 
-## Note
+## Notes/Final Thoughts
 If you want to fork this code, you'll have to connect to your own MongoDB database. Only my IP address and only my username and password can access my specific data.
 
+When I continue this project, I want to create a UI and add authentication to my database. I also want to add security features, including adding an ID validator for my Artist and Record database IDs.
