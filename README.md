@@ -51,23 +51,52 @@ This project is a full CRUD record collection created with Javascript (Node.js) 
 ## Additional Libraries
 - [dotenv (8.2.0)](https://www.npmjs.com/package/dotenv)
 
+- [express (4.17.1)](https://expressjs.com/)
+
+- [mongoose (5.12.3)](https://mongoosejs.com/)
+
+- [nodemon (2.0.7)](https://www.npmjs.com/package/nodemon)
+
 ## Code Snippet
-- The simple but necessary code to activate the core of my app: creating movies for my database.
+- This snippet is for updating an artist and the edge cases that may come with it. It was the most challenging of my routes because of added functonality for edge cases (e.g. if you update an artist, updating the corresponding records).
 
 ```
-def create(self, request, *args, **kwargs):
-        movie = Movie.objects.filter(
-            title=request.data.get('title'),
-            user=request.user
-        )
+// UPDATE ARTIST
+router.put('/:artistId', async (req, res) => {
+    try {
+        // UPDATE ARTIST
+        const replacedArtist = await Artist.findByIdAndUpdate(req.params.artistId, req.body, {new: true});
 
-        if movie:
-            msg = 'Movie with that title already exists'
-            raise ValidationError(msg)
-        return super().create(request)
+        const recordIDs = replacedArtist.records;
+
+        // UPDATE RECORDS WITH ARTIST
+        for (element of recordIDs) {
+            const record = await Record.findById(element);
+
+            if (!record.artists.includes(req.params.recordId)) {
+                await Record.updateOne({_id: element}, {$push: {artists: req.params.artistId}})
+            }
+        }
+
+        // REMOVE ARTIST FROM RECORD NOT IN ARTISTS ARRAY
+        await Record.updateMany(
+            {_id: {$nin: recordIDs}}, 
+            {$pull: {artists: {$in: [req.params.artistId]}}},
+            {multi: true}
+        );
+        
+        res.status(200).json(replacedArtist);
+    } catch (err) {
+        res.status(500).json({message: err.message});
+    }
+});
 ```
 
 ## Issues and Resolutions
-**ERROR**: ```<title>ProgrammingError at /auth/users/register/</title>``` in Postman
+**ERROR**: ```Artists.find() buffering timed out after 10000ms.``` in Postman.
 
-**RESOLUTION**: The deployed database needed to be reset and migrations needed to be re-run.
+**RESOLUTION**: My IP address wasn't authorized to run requests in my MongoDB database. I was so busy looking in the code, I didn't think about an issue with my MongoDB settings. Definitelly learned my lesson.
+
+## Note
+If you want to fork this code, you'll have to connect to your own MongoDB database. Only my IP address and only my username and password can access my specific data.
+
