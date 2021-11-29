@@ -3,8 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 require('dotenv/config')
-const artistRouter = require('./routes/artists');
-const recordRouter = require('./routes/records');
+const artistRouter = require('./controllers/artists');
+const recordRouter = require('./controllers/records');
 
 // MIDDLEWARE
 app.use(express.json());
