@@ -15,19 +15,19 @@ router.get('/', async (req, res) => {
 });
 
 // SUBMIT ARTIST
-router.post('/', async (req, res) => {
-    const artist = new Artist({
-        name: req.body.name,
-        birthday: req.body.birthday,
-        image: req.body.image
-    });
-    try {
-        const savedArtist = await artist.save();
-        res.status(200).json(artist);
-    } catch (err) {
-        res.status(500).json({message: err.message});
-    }
-});
+// router.post('/', async (req, res) => {
+//     const artist = new Artist({
+//         name: req.body.name,
+//         birthday: req.body.birthday,
+//         image: req.body.image
+//     });
+//     try {
+//         const savedArtist = await artist.save();
+//         res.status(200).json(artist);
+//     } catch (err) {
+//         res.status(500).json({message: err.message});
+//     }
+// });
 
 // DELETE ARTIST
 router.delete('/:artistId', async (req, res) => {
